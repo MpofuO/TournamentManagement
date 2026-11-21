@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -16,7 +16,7 @@ namespace API.Data.Migrations
                 {
                     TeamID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Teamname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TeamName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Abbreviation = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>

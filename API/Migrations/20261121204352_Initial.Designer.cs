@@ -9,10 +9,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace API.Data.Migrations
+namespace API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20261113074256_Initial")]
+    [Migration("20261121204352_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -87,7 +87,7 @@ namespace API.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Teamname")
+                    b.Property<string>("TeamName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
