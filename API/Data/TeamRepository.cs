@@ -13,6 +13,11 @@ public class TeamRepository : BaseRepository<Team>, ITeamRepository
         return await context.Teams.FirstOrDefaultAsync(t => t.TeamName == name);
     }
 
+    public async Task<Team?> GetByAbbreviationAsync(string abbr)
+    {
+        return await context.Teams.FirstOrDefaultAsync(t => t.Abbreviation == abbr);
+    }
+
     public async Task<IEnumerable<Team>> GetByTournamentAsync(int tournamentId)
     {
         return await context.Teams
