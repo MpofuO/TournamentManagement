@@ -82,13 +82,25 @@ namespace API.Migrations
 
                     b.Property<string>("Abbreviation")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("NormalizedTeamName")
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("TeamName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.HasKey("TeamID");
+
+                    b.HasIndex("Abbreviation")
+                        .IsUnique();
+
+                    b.HasIndex("NormalizedTeamName")
+                        .IsUnique();
 
                     b.ToTable("Teams");
                 });
@@ -166,7 +178,7 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.HasOne("API.Entities.Team", "Team")
-                        .WithMany("MatchTeams")
+                        .WithMany()
                         .HasForeignKey("TeamID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -202,8 +214,6 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Team", b =>
                 {
-                    b.Navigation("MatchTeams");
-
                     b.Navigation("TournamentTeams");
                 });
 

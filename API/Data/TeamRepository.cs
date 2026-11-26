@@ -1,4 +1,5 @@
 using API.Entities;
+using API.Helpers;
 using API.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,12 +11,13 @@ public class TeamRepository : BaseRepository<Team>, ITeamRepository
 
     public async Task<Team?> GetByNameAsync(string name)
     {
-        return await context.Teams.FirstOrDefaultAsync(t => t.TeamName == name);
+        var key = TeamNameHelper.Key(name);
+        return await context.Teams.FirstOrDefaultAsync(t => t.NormalizedTeamName == key);
     }
 
     public async Task<Team?> GetByAbbreviationAsync(string abbr)
     {
-        return await context.Teams.FirstOrDefaultAsync(t => t.Abbreviation == abbr);
+        return await context.Teams.FirstOrDefaultAsync(t => t.Abbreviation == abbr.ToUpperInvariant());
     }
 
     public async Task<IEnumerable<Team>> GetByTournamentAsync(int tournamentId)

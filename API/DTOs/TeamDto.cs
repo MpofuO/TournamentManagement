@@ -4,18 +4,22 @@ namespace API.DTOs;
 
 public class TeamDto
 {
-    [Required, StringLength(40, MinimumLength = 2, ErrorMessage = "Team name must be between 2 and 40 characters long.")]
-    public required string TeamName {get; set;}
+    public int? TeamId { get; set; }
 
-    [Required, StringLength(3, MinimumLength = 3, ErrorMessage = "Abbreviation must be exactly 3 characters long.")]
-    public required string Abbreviation {get; set;}
+    [Required, RegularExpression(@"\A(?=[A-Za-z ]*[A-Za-z])[A-Za-z ]+\z", ErrorMessage = "Team name can only contain letters and spaces.")]
+    [StringLength(40, MinimumLength = 1, ErrorMessage = "Team name must be between 1 and 40 characters long.")]
+    public required string TeamName { get; set; }
+
+    [RegularExpression(@"\A[A-Za-z]{3}\z", ErrorMessage = "Abbreviation must be exactly 3 letters.")]
+    public required string Abbreviation { get; set; }
 }
 
 public class UpdateTeamDto
 {
-    [StringLength(40, MinimumLength = 2, ErrorMessage = "Team name must be between 2 and 40 characters long.")]
+    [RegularExpression(@"\A(?=[A-Za-z ]*[A-Za-z])[A-Za-z ]+\z", ErrorMessage = "Team name can only contain letters and spaces.")]
+    [StringLength(40, MinimumLength = 1, ErrorMessage = "Team name must be between 1 and 40 characters long.")]
     public string? TeamName { get; set; }
 
-    [StringLength(3, MinimumLength = 3, ErrorMessage = "Abbreviation must be exactly 3 characters long.")]
+    [RegularExpression(@"\A[A-Za-z]{3}\z", ErrorMessage = "Abbreviation must be exactly 3 letters.")]
     public string? Abbreviation { get; set; }
 }

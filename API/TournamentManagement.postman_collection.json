@@ -24,7 +24,7 @@
 								"teams"
 							]
 						},
-						"description": "TeamsController.GetAll"
+						"description": "TeamsController.GetAll. Returns a list of TeamDto objects (teamId, teamName, abbreviation)."
 					},
 					"response": []
 				},
@@ -51,7 +51,7 @@
 								}
 							]
 						},
-						"description": "TeamsController.GetTournamentTeams"
+						"description": "TeamsController.GetTournamentTeams. Returns a list of TeamDto objects for the specified tournament."
 					},
 					"response": []
 				},
@@ -84,7 +84,7 @@
 								"teams"
 							]
 						},
-						"description": "TeamsController.CreateTeam. Body is TeamDto: teamName (2 to 40 characters) and abbreviation (exactly 3 characters)."
+						"description": "TeamsController.CreateTeam. Body: teamName (1-40 English letters/spaces, at least one letter) and abbreviation (exactly 3 English letters). Returns the created TeamDto including teamId. Duplicate name/abbreviation returns 400; database unique-index conflict returns 409."
 					},
 					"response": []
 				},
@@ -100,7 +100,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"teams\": [\n\t\t{\n\t\t\t\"teamName\": \"Falcons\",\n\t\t\t\"abbreviation\": \"FAL\"\n\t\t},\n\t\t{\n\t\t\t\"teamName\": \"Tigers\",\n\t\t\t\"abbreviation\": \"TIG\"\n\t\t},\n\t\t{\n\t\t\t\"teamName\": \"Lions\",\n\t\t\t\"abbreviation\": \"LIO\"\n\t\t},\n\t\t{\n\t\t\t\"teamName\": \"Eagles\",\n\t\t\t\"abbreviation\": \"EAG\"\n\t\t}\n\t]\n}",
+							"raw": "{\n\t\"teams\": [\n\t\t{ \"nameAbbreviation\": \"Falcons-FAL\" },\n\t\t{ \"nameAbbreviation\": \"Tigers-TIG\" },\n\t\t{ \"nameAbbreviation\": \"Lions-LIO\" },\n\t\t{ \"nameAbbreviation\": \"Eagles-EAG\" }\n\t]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -119,7 +119,7 @@
 								"preview"
 							]
 						},
-						"description": "TeamsController.PreviewBulkCreateTeams. Body is BulkTeamDto: a list of TeamDto."
+						"description": "TeamsController.PreviewBulkCreateTeams. Body is BulkTeamDto with teams as NameAbbreviation strings in the format 'Team Name-ABC'. Returns only existing teams matched by name or abbreviation; malformed items return 400."
 					},
 					"response": []
 				},
@@ -135,7 +135,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"teams\": [\n\t\t{\n\t\t\t\"teamName\": \"Falcons\",\n\t\t\t\"abbreviation\": \"FAL\"\n\t\t},\n\t\t{\n\t\t\t\"teamName\": \"Tigers\",\n\t\t\t\"abbreviation\": \"TIG\"\n\t\t},\n\t\t{\n\t\t\t\"teamName\": \"Lions\",\n\t\t\t\"abbreviation\": \"LIO\"\n\t\t},\n\t\t{\n\t\t\t\"teamName\": \"Eagles\",\n\t\t\t\"abbreviation\": \"EAG\"\n\t\t}\n\t]\n}",
+							"raw": "{\n\t\"teams\": [\n\t\t{ \"nameAbbreviation\": \"Falcons-FAL\" },\n\t\t{ \"nameAbbreviation\": \"Tigers-TIG\" },\n\t\t{ \"nameAbbreviation\": \"Lions-LIO\" },\n\t\t{ \"nameAbbreviation\": \"Eagles-EAG\" }\n\t]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -153,7 +153,7 @@
 								"bulk"
 							]
 						},
-						"description": "TeamsController.BulkCreateTeams. Body is BulkTeamDto: a list of TeamDto."
+						"description": "TeamsController.BulkCreateTeams. Body is BulkTeamDto with teams as NameAbbreviation strings in the format 'Team Name-ABC'. Team names allow 1-40 English letters/spaces with at least one letter; abbreviations are exactly 3 English letters. Duplicate checks return 400; database unique-index conflict returns 409."
 					},
 					"response": []
 				},
@@ -194,7 +194,7 @@
 								}
 							]
 						},
-						"description": "TeamsController.UpdateTeam. Body is UpdateTeamDto: teamName and abbreviation are both optional."
+						"description": "TeamsController.UpdateTeam. Body is UpdateTeamDto; teamName and abbreviation are optional. Duplicate name/abbreviation returns 400; database unique-index conflict returns 409."
 					},
 					"response": []
 				},
@@ -221,7 +221,7 @@
 								}
 							]
 						},
-						"description": "TeamsController.DeleteTeam"
+						"description": "TeamsController.DeleteTeam. Returns 404 if the team does not exist and 400 if it is associated with a tournament in any status."
 					},
 					"response": []
 				}

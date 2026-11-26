@@ -25,15 +25,18 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             .WithOne(m => m.Tournament)
             .HasForeignKey(m => m.TournamentId);
 
-        modelBuilder.Entity<Team>()
-            .HasMany(t => t.TournamentTeams)
-            .WithOne(tt => tt.Team)
-            .HasForeignKey(tt => tt.TeamID);
 
-        modelBuilder.Entity<Team>()
-            .HasMany(t => t.MatchTeams)
-            .WithOne(mt => mt.Team)
-            .HasForeignKey(mt => mt.TeamID);
+        modelBuilder.Entity<Team>(e =>
+        {
+            e.Property(t => t.TeamName).HasMaxLength(40).IsRequired();
+            e.Property(t => t.NormalizedTeamName).HasMaxLength(40).IsRequired();
+            e.HasIndex(t => t.NormalizedTeamName).IsUnique();
+            e.HasIndex(t => t.Abbreviation).IsUnique();
+
+            e.HasMany(t => t.TournamentTeams)
+                .WithOne(tt => tt.Team)
+                .HasForeignKey(tt => tt.TeamID);
+        });
 
         modelBuilder.Entity<Match>()
             .HasMany(m => m.MatchTeams)
